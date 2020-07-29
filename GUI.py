@@ -35,6 +35,12 @@ board_ = [
 ]
 
 
+def reset_board():
+    for i in range(len(board_[0])):
+        for j in range(3):
+            board_[i][j] = "-"
+
+
 def select_p(player=None):
     global current, player_, ai_, human
     if player == None:
@@ -227,7 +233,7 @@ while True:
     sec = board_[1].count('-')
     thir = board_[2].count('-')
     count = fist + sec + thir
-    print(count)
+
     if current == None:
         select_p()
 
@@ -241,8 +247,21 @@ while True:
     if count == 0 or count <= 0 or winner is not None:
         display.fill((0, 0, 0))
         win_font = pygame.font.Font('Font/Roboto-Black.ttf', 50)
-        wf = win_font.render(f"{winner}", True, (255, 255, 255))
-        display.blit(wf, (width//2, height//2))
+        win_text = winner + " is win."
+        wf = win_font.render(win_text, True, (255, 255, 255))
+        reset_text = win_font.render("Press R For Reset..", True, (255, 255, 255))
+        display.blit(wf, ((width // 2) - 90, (height // 2) - 50))
+        display.blit(reset_text, ((width // 2) - 200, (height // 2) + 50))
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                game_status = False
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:
+                    count = 9
+                    winner = None
+                    current = None
+                    reset_board()
     else:
         if current == ai_:
             ai_turn()
@@ -256,11 +275,11 @@ while True:
                     board_[row - 1][col - 1] = current
                     current = select_p(current)
                 else:
-                    print("This Is Filled")
+                    pass
         else:
             pass
 
-    draw_circle()
+        draw_circle()
 
-    draw_grid()
+        draw_grid()
     pygame.display.update()
