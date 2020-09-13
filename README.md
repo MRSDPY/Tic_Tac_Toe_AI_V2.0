@@ -7,3 +7,4 @@ The classic **Tic Tac Toe**. Made with python and "MiniMax Alogorithm", And also
 # Requirements
 
 python
+pygame
